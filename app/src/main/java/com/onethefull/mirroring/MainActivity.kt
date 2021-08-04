@@ -7,23 +7,19 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.appindexing.Action
-import com.google.firebase.appindexing.FirebaseAppIndex
-import com.google.firebase.appindexing.FirebaseUserActions
-import com.google.firebase.appindexing.builders.Actions
-import com.google.firebase.appindexing.Indexable;
+
 import com.onethefull.mirroring.databinding.ActivityMainBinding
+import com.onethefull.screenmirroring.ScreenMirroring
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
 
 
     }
@@ -37,25 +33,20 @@ class MainActivity : AppCompatActivity() {
 
         var id = item.itemId
 
-        if(id==R.id.action_fav){
-            startActivity(Intent("android.settings.CAST_SETTINGS"))
+        if (id == R.id.action_fav) {
+            //startActivity(Intent("android.settings.CAST_SETTINGS"))
+            ScreenMirroring.getInstance().start(this)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    // After
-    fun getAction(): Action{
-        return Actions.newView("Main Page", Uri.parse("http://").toString())
-    }
     override fun onStart() {
         super.onStart()
-       // FirebaseAppIndex.getInstance(this).update(getIndexable());
-        FirebaseUserActions.getInstance(this).start(getAction());
+        ScreenMirroring.getInstance().init(this)
     }
 
     override fun onStop() {
-        FirebaseUserActions.getInstance(this).end(getAction());
-
+        ScreenMirroring.getInstance().stop(this)
         super.onStop()
     }
 }

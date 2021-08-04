@@ -1,2 +1,3 @@
+include ':screenmirroring'
 include ':app'
 rootProject.name = "ScreenMirroring"
