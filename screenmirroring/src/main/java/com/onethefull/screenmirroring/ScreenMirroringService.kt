@@ -24,16 +24,25 @@ class ScreenMirroringService : Service(){
     var moveY = 0f
     private lateinit var mLayoutParams: WindowManager.LayoutParams
 
+    var appContext : Context ?=null
     companion object{
         fun startService(context: Context){
             val startIntent = Intent(context, ScreenMirroringService::class.java)
             context.startService(startIntent)
+
         }
 
         fun stopService(context: Context){
             val stopIntent = Intent(context, ScreenMirroringService::class.java)
             context.stopService(stopIntent)
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(ScreenMirroringConstants.MSG_NOTIFICATION).apply {
+            putExtra("message", ScreenMirroringResponse(ScreenMirroringResponseCode.SUCCESS, ScreenMirroringResponseState.START))
+        })
     }
 
     override fun onBind(intent: Intent?): IBinder?=null

@@ -14,6 +14,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.onethefull.mirroring.databinding.ActivityMainBinding
 import com.onethefull.screenmirroring.*
+import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
@@ -42,6 +43,15 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
 
         ScreenMirroringManager.getInstance().addListener(this)
         ScreenMirroring.getInstance().init(this)
+
+ /*       var sec = 1
+        timer(period = 1000,initialDelay = 1000){
+            if(sec == 5){
+                ScreenMirroring.getInstance().start(this@MainActivity)
+
+            }
+            sec++
+        }*/
 /*
         var stopI = intent
       isBound =  stopI.getBooleanExtra("STOP_SERVICE",false)
@@ -63,7 +73,6 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
                     ScreenMirroringResponseCode.SUCCESS->{
                         Log.d(TAG, "ScreenMirroringResponseCode SUCCESS")
                         checkPermission()
-
                     }
                     ScreenMirroringResponseCode.ERROR_FAIL ->{
                         Log.d(TAG, "ScreenMirroringResponseCode ERROR_FAIL")
@@ -72,7 +81,9 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
             }
             ScreenMirroringResponseState.STOP ->{
                 Log.d(TAG, "ScreenMirroringResponseState STOP")
-                ScreenMirroringService.stopService(this)
+               // ScreenMirroringService.stopService(this)
+
+                MainService.stopService(this)
 
             }
         }
@@ -93,7 +104,7 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
                 }*/
                // MainService.startService(this)
                 ScreenMirroringService.startService(this)
-               //startService(Intent(this@MainActivity, MainService::class.java))
+               //startService(Intent(this@MainActivity, MainService::clasgbs.java))
             }
         } else {
          //   startService(Intent(this@MainActivity, MainService::class.java))
@@ -134,6 +145,7 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
             //startActivity(Intent("android.settings.CAST_SETTINGS"))
             //checkPermission()
 
+
             ScreenMirroring.getInstance().start(this)
         }
         return super.onOptionsItemSelected(item)
@@ -143,13 +155,13 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
         super.onStart()
         Log.d(TAG, "onStart ")
 
-        //ScreenMirroring.getInstance().init(this)
+        ScreenMirroring.getInstance().init(this)
     }
 
     override fun onStop() {
         Log.d(TAG, "onStop ")
 
-       // ScreenMirroring.getInstance().stop(this)
+        ScreenMirroring.getInstance().stop(this)
         super.onStop()
     }
 }

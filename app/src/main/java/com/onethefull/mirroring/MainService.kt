@@ -15,6 +15,8 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.onethefull.screenmirroring.ScreenMirroring
+import com.onethefull.screenmirroring.ScreenMirroringService
 
 
 class MainService : Service(){
@@ -25,7 +27,7 @@ class MainService : Service(){
     }
 
     inner class MainServiceBinder : Binder(){
-        fun getSerivce() : MainService{
+        fun getService() : MainService{
             return this@MainService
         }
     }
@@ -113,9 +115,10 @@ class MainService : Service(){
             bt?.setImageResource(R.mipmap.ic_launcher_round)
             tv?.text = "on click!!"
 
-            sendMessage()
-            stopEvent()
+           // sendMessage()
+            //stopEvent()
 
+            ScreenMirroring.getInstance().stop(this)
             //   stopSelf()
          //   mCallback?.onStopEvent()
 
@@ -158,6 +161,9 @@ class MainService : Service(){
     fun stopEvent(){
         Log.d(TAG, "stopEvent")
          wm?.removeView(mView)
+
+        //ScreenMirroringService.stopService(this)
+        stopService(this)
 
 /*
             if(mView != null){
