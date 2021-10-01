@@ -4,17 +4,13 @@ import android.content.*
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.gson.Gson
 import com.onethefull.mirroring.databinding.ActivityMainBinding
 import com.onethefull.screenmirroring.*
-import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
@@ -84,7 +80,6 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
                // ScreenMirroringService.stopService(this)
 
                 MainService.stopService(this)
-
             }
         }
     }
@@ -92,11 +87,12 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
     fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {   // 마시멜로우 이상일 경우
             if (!Settings.canDrawOverlays(this)) {              // 체크
-                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:$packageName"))
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:$packageName")
+                )
                 startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
             } else {
-
                 Log.d(TAG, "checkPermission $isBound")
 
         /*        if(!isBound) {
@@ -110,8 +106,6 @@ class MainActivity : AppCompatActivity(), ScreenMirroringMessagingInterface {
          //   startService(Intent(this@MainActivity, MainService::class.java))
           //  MainService.startService(this)
             ScreenMirroringService.startService(this)
-
-
         }
     }
 

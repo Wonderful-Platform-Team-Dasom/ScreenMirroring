@@ -12,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId "com.onethefull.mirroring"
-        minSdkVersion 25
-        targetSdkVersion 30
+        minSdkVersion 21
+        targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0_init_version"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,10 +27,33 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+   }
+
     buildFeatures{
         viewBinding =true
     }
 
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.all {
+                def versionName = variant.versionName
+                def versionCode = variant.versionCode
+                def date = new java.text.SimpleDateFormat("yyyyMMddHHmm").format(new Date())
+                def newName = "ScreenMirroring_${versionName}_${versionCode}.apk"
+                outputFileName = newName
+            }
+        } else if (variant.buildType.name == "debug") {
+            variant.outputs.all {
+                def versionName = variant.versionName
+                def versionCode = variant.versionCode
+                def date = new java.text.SimpleDateFormat("yyyyMMddHHmm").format(new Date())
+                def newName = "ScreenMirroring_${versionName}_C_${versionCode}_${date}.apk"
+                outputFileName = newName
+            }
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
